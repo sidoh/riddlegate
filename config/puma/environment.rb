@@ -1,4 +1,5 @@
 root = File.expand_path(File.join(__FILE__, '../../..'))
+$LOAD_PATH << root
 
 %w{
   tmp/puma
@@ -6,3 +7,5 @@ root = File.expand_path(File.join(__FILE__, '../../..'))
 }.each do |d|
   FileUtils.mkdir_p(d)
 end
+
+require "db/db"

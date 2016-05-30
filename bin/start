@@ -6,12 +6,4 @@ set -o nounset
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source $DIR/locate.sh
-
-if [ ! -z "$(riddlegate_locate)" ]; then
-  echo "process already running. run stop to kill it."
-  exit 1
-fi
-
-nohup $DIR/run.sh 2>&1 >> $(riddlegate_logdir)/sb_api.log &
-echo -ne "$!" > "$(riddlegate_pidfile)"
+RACK_ENV=production $DIR/run.sh
