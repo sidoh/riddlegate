@@ -1,0 +1,12 @@
+%h1 Settings
+
+%form{ :action => '/settings', :method => 'post' }
+  .row
+    .col-sm-3
+      %label{ :name => 'passcode' } Passcode
+    .col-sm-9
+      = setting_field :passcode
+
+  .row
+    .col-sm-12
+      %input.btn.btn-success{ :type => 'submit', :name => 'submit', :value => 'Submit' }

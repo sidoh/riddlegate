@@ -4,6 +4,10 @@ module Riddlegate
 
     ]
 
+    def setting_field(key)
+      "<input type='text' class='form-control' name='settings[#{key}]' value='#{get_setting(key)}'/>"
+    end
+
     def update_setting(key, value)
       v = Setting.first_or_create(setting_key: key)
       v.setting_value = value

@@ -1,3 +1,5 @@
+require 'fileutils'
+
 root = File.expand_path(File.join(__FILE__, '../../..'))
 $LOAD_PATH << root
 
