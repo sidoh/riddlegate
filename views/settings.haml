@@ -28,24 +28,24 @@
         .col-sm-12
           %label{ :name => 'passcode' } Passcode
           .field-help{ :'data-help-text' => 'Digits user must dial in order to gain entry.' }
-          = setting_field :passcode
+          = setting_field :passcode, 'number'
 
       .row.behavior-field{ :'data-modes' => 'locked forward' }
         .col-sm-12
           %label{ :name => 'forward_number' } Forward number
-          = setting_field :forward_number
+          = setting_field :forward_number, 'tel'
 
       .row.behavior-field{ :'data-modes' => 'locked' }
         .col-sm-12
           %label{ :name => 'timeout' } Timeout
           .field-help{ :'data-help-text' => 'After this many seconds, forward the call to the forward number.' }
-          = setting_field :timeout
+          = setting_field :timeout, 'number'
 
       .row.behavior-field{ :'data-modes' => 'locked unlocked' }
         .col-sm-12
           %label{ :name => 'timeout' } Buzz Digits
           .field-help{ :'data-help-text' => 'Digits you dial to unlock the gate.' }
-          = setting_field :buzz_digits
+          = setting_field :buzz_digits, 'number'
 
       .row
         .col-sm-12
