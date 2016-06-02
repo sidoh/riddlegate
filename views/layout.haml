@@ -8,7 +8,12 @@
 
     %title Riddlegate
 
+    %script{:type => 'application/javascript', :src => '/assets/application.js' }
+
     %link{:href => "/assets/application.css", :rel => "stylesheet"}
+    = bootstrap_css false
+    = bootstrap_js_legacy
+
   %body
     .container
       %nav.navbar.navbar-default
@@ -22,7 +27,7 @@
             %a.navbar-brand{:href => "/"} Riddlegate
           #navbar.navbar-collapse.collapse
             %ul.nav.navbar-nav
-              %li.active
+              %li
                 %a{:href => "/"} Home
               %li
                 %a{:href => "/settings"} Settings
@@ -31,3 +36,5 @@
       .row
         .col-lg-6
           = yield
+
+    = bootstrap_js_default
