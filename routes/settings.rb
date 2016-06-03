@@ -1,5 +1,5 @@
 module Riddlegate
-  class App < Sinatra::Application
+  class AdminApp < Sinatra::Application
     get '/settings' do
       haml :settings
     end
@@ -9,7 +9,7 @@ module Riddlegate
         update_setting(k, v)
       end
 
-      redirect '/settings'
+      redirect '/admin/settings'
     end
   end
 end

@@ -7,4 +7,10 @@ configure do
   set :server, :puma
 end
 
-run Riddlegate::App.new
+map '/' do
+  run Riddlegate::App.new
+end
+
+map '/admin' do
+  run Riddlegate::AdminApp.new
+end

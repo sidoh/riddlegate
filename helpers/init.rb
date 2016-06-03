@@ -1,8 +1,9 @@
 require 'helpers/forms'
-Riddlegate::App.helpers Riddlegate::Forms
-
 require 'helpers/settings'
-Riddlegate::App.helpers Riddlegate::Settings
-
 require 'helpers/api_responses'
-Riddlegate::App.helpers Riddlegate::ApiResponses
+
+[Riddlegate::App, Riddlegate::AdminApp].each do |c|
+  c.helpers Riddlegate::Forms
+  c.helpers Riddlegate::Settings
+  c.helpers Riddlegate::ApiResponses
+end

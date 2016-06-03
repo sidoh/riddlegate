@@ -12,8 +12,20 @@ require 'tilt/haml'
 
 module Riddlegate
   class App < Sinatra::Application
+    get '/' do
+      haml :index
+    end
+  end
+
+  class AdminApp < Sinatra::Application
+  end
+end
+
+# Make assets available for all apps
+[Riddlegate::App, Riddlegate::AdminApp].each do |c|
+  c.class_exec do
     register Sinatra::Bootstrap::Assets
-    
+
     set :environment, Sprockets::Environment.new
     environment.append_path "assets/stylesheets"
     environment.append_path "assets/javascripts"
@@ -23,10 +35,6 @@ module Riddlegate
     get "/assets/*" do
       env["PATH_INFO"].sub!("/assets", "")
       settings.environment.call(env)
-    end
-
-    get '/' do
-      haml :index
     end
   end
 end
