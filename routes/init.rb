@@ -1,2 +1,4 @@
-require 'routes/settings'
-require 'routes/twilio'
+require 'routes/admin/settings'
+require 'routes/admin/logs'
+
+require 'routes/twilio/twilio'

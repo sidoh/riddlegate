@@ -1,0 +1,10 @@
+%h3 Logs
+
+%table
+  %thead
+    %th Msg
+    %th Metadata
+  - Log.all.each do |l|
+    %tr
+      %td= l.message
+      %td= l.metadata

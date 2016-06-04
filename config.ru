@@ -7,8 +7,8 @@ configure do
   set :server, :puma
 end
 
-map '/' do
-  run Riddlegate::App.new
+map '/twilio' do
+  run Riddlegate::TwilioApp.new
 end
 
 map '/admin' do

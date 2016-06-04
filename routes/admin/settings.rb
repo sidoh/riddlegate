@@ -1,7 +1,7 @@
 module Riddlegate
   class AdminApp < Sinatra::Application
     get '/settings' do
-      haml :settings
+      haml :'admin/settings'
     end
 
     post '/settings' do
