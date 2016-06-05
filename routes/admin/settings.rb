@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Riddlegate
   class AdminApp < Sinatra::Application
     get '/settings' do
@@ -15,6 +17,10 @@ module Riddlegate
 
       checkboxes.each do |k|
         update_setting(k, !params[:settings][k].nil?)
+      end
+
+      if security_enabled? && get_setting(:hmac_secret, default: "").empty?
+        update_setting(:hmac_secret, SecureRandom.hex)
       end
 
       redirect '/admin/settings'

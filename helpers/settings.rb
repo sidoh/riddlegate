@@ -5,7 +5,7 @@ module Riddlegate
     ]
 
     def security_enabled?
-      get_setting(:security_enabled)
+      to_bool(get_setting(:security_enabled))
     end
 
     def update_setting(key, value)
