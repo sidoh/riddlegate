@@ -16,6 +16,23 @@ module Riddlegate
   end
 
   class AdminApp < Sinatra::Application
+    helpers do
+      def authorized?
+        @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+        @auth.provided? && @auth.basic? && @auth.credentials &&
+          @auth.credentials == [
+            get_setting(:admin_username, default: 'admin'),
+            get_setting(:admin_password, default: 'hunter2')
+          ]
+      end
+    end
+
+    before do
+      if !authorized?
+        headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+        halt 401, "Not authorized\n"
+      end
+    end
   end
 
   class RootApp < Sinatra::Application
@@ -79,27 +96,3 @@ end
 
 require 'routes/init'
 require 'helpers/init'
-
-# Set up authentication for AdminApp -- since it needs access to helpers,
-# has to happen after helpers have been included
-module Riddlegate
-  class AdminApp < Sinatra::Application
-    helpers do
-      def authorized?
-        @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-        @auth.provided? && @auth.basic? && @auth.credentials &&
-          @auth.credentials == [
-            get_setting(:admin_username, default: 'admin'),
-            get_setting(:admin_password, default: 'hunter2')
-          ]
-      end
-    end
-
-    before do
-      if !authorized?
-        headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
-        halt 401, "Not authorized\n"
-      end
-    end
-  end
-end
