@@ -4,6 +4,10 @@ module Riddlegate
 
     ]
 
+    def security_enabled?
+      get_setting(:security_enabled)
+    end
+
     def setting_field(key, type = 'text')
       "<input type='#{type}' class='form-control' name='settings[#{key}]' value='#{get_setting(key)}'/>"
     end

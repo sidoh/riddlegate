@@ -6,6 +6,7 @@ require 'sinatra/json'
 require 'sinatra/param'
 require 'sinatra/bootstrap'
 require 'sprockets'
+require 'openssl'
 
 require 'haml'
 require 'tilt/haml'
@@ -19,10 +20,47 @@ module Riddlegate
 
   class RootApp < Sinatra::Application
   end
+
+  class ApiApp < Sinatra::Application
+    before do
+      if security_enabled?
+        timestamp = request.env['HTTP_X_SIGNATURE_TIMESTAMP']
+        payload   = request.env['HTTP_X_SIGNATURE_PAYLOAD']
+        signature = request.env['HTTP_X_SIGNATURE']
+
+        if [payload, timestamp, signature].any?(&:nil?)
+          logger.info "Access denied: incomplete signature params."
+          logger.info "timestamp = #{timestamp}, payload = #{payload}, signature = #{signature}"
+          halt 403
+        end
+
+        digest = OpenSSL::Digest.new('sha1')
+        data = (payload + timestamp)
+        hmac = OpenSSL::HMAC.hexdigest(digest, get_setting(:hmac_secret), data)
+
+        if hmac != signature
+          logger.info "Access denied: incorrect signature. Computed = '#{hmac}', provided = '#{signature}'"
+          halt 403
+        end
+
+        if ((Time.now.to_i - 20) > timestamp.to_i)
+          logger.info "Invalid parameter. Timestamp expired: #{timestamp}"
+          halt 412
+        end
+      end
+    end
+  end
 end
 
+Riddlegate::APPS = [
+  Riddlegate::RootApp,
+  Riddlegate::TwilioApp,
+  Riddlegate::AdminApp,
+  Riddlegate::ApiApp
+]
+
 # Make assets available for all apps
-[Riddlegate::RootApp, Riddlegate::TwilioApp, Riddlegate::AdminApp].each do |c|
+Riddlegate::APPS.each do |c|
   c.class_exec do
     register Sinatra::Bootstrap::Assets
 
