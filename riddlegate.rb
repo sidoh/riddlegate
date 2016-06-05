@@ -12,17 +12,17 @@ require 'tilt/haml'
 
 module Riddlegate
   class TwilioApp < Sinatra::Application
-    get '/' do
-      haml :index
-    end
   end
 
   class AdminApp < Sinatra::Application
   end
+
+  class RootApp < Sinatra::Application
+  end
 end
 
 # Make assets available for all apps
-[Riddlegate::TwilioApp, Riddlegate::AdminApp].each do |c|
+[Riddlegate::RootApp, Riddlegate::TwilioApp, Riddlegate::AdminApp].each do |c|
   c.class_exec do
     register Sinatra::Bootstrap::Assets
 

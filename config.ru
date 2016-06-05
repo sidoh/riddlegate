@@ -14,3 +14,7 @@ end
 map '/admin' do
   run Riddlegate::AdminApp.new
 end
+
+map '/' do
+  run Riddlegate::RootApp.new
+end

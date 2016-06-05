@@ -1,10 +1,14 @@
 %h3 Logs
 
-%table
+%table#logs.table
   %thead
     %th Msg
     %th Metadata
   - Log.all.each do |l|
     %tr
       %td= l.message
-      %td= l.metadata
+      %td
+        - JSON.parse(l.metadata).each do |k, v|
+          .metadata-item
+            .key= k
+            .value= v
