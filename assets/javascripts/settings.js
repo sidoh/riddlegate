@@ -22,6 +22,18 @@ $(function() {
     })
     .click();
 
+  var securityField = $('input[name="settings[security_enabled]"]');
+  securityField.on('switchChange.bootstrapSwitch',
+    function(e, state) {
+      if ($(this).is(':checked')) {
+        $('#security-settings').fadeIn();
+      } else {
+        $('#security-settings').fadeOut();
+      }
+    }
+  );
+  securityField.trigger('switchChange.bootstrapSwitch');
+
   $('.field-help').each(function() {
     var elmt = $('<i></i>')
       .addClass('glyphicon glyphicon-question-sign')
@@ -32,4 +44,6 @@ $(function() {
       });
     $(this).append(elmt);
   });
+
+  $('.bootstrap-switch').bootstrapSwitch();
 });

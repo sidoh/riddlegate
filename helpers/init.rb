@@ -1,5 +1,5 @@
-require 'helpers/forms'
 require 'helpers/settings'
+require 'helpers/forms'
 require 'helpers/api_responses'
 require 'helpers/logs'
 

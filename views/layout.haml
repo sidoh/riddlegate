@@ -8,11 +8,10 @@
 
     %title Riddlegate
 
-    %script{:type => 'application/javascript', :src => '/assets/application.js' }
-
-    %link{:href => "/assets/application.css", :rel => "stylesheet"}
     = bootstrap_css false
     = bootstrap_js_legacy
+
+    %link{:href => "/assets/application.css", :rel => "stylesheet"}
 
   %body
     .container
@@ -38,3 +37,4 @@
           = yield
 
     = bootstrap_js_default
+    %script{:type => 'application/javascript', :src => '/assets/application.js' }

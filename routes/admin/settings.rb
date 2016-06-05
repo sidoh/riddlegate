@@ -5,8 +5,16 @@ module Riddlegate
     end
 
     post '/settings' do
+      checkboxes = %w{security_enabled}
+
       params[:settings].each do |k, v|
-        update_setting(k, v)
+        if !checkboxes.include?(k)
+          update_setting(k, v)
+        end
+      end
+
+      checkboxes.each do |k|
+        update_setting(k, !params[:settings][k].nil?)
       end
 
       redirect '/admin/settings'

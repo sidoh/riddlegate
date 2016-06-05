@@ -1,2 +1,2 @@
-//= require jquery
+//= require bootstrap-switch
 //= require settings

@@ -47,9 +47,25 @@
           .field-help{ :'data-help-text' => 'Digits you dial to unlock the gate.' }
           = setting_field :buzz_digits, 'number'
 
+    %h3 Security
+
+    .row
+      .col-sm-12
+        %label{ :name => 'security_enabled' } Require API Signatures
+        .field-help{ :'data-help-text' => 'Require that API requests include HMAC security headers. If enabled, specify a shared secret.' }
+        = setting_checkbox :security_enabled
+
+    #security-settings
       .row
         .col-sm-12
-          &nbsp;
+          %label{ :name => 'hmac_secret' } API HMAC Secret
+          .field-help{ :'data-help-text' => 'Require that API requests be signed with this secret.' }
+          = setting_field :hmac_secret
+
+
+    .row
+      .col-sm-12
+        &nbsp;
 
     .row
       .col-sm-12
