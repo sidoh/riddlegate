@@ -69,4 +69,20 @@
 
     .row
       .col-sm-12
+        %label{ :name => 'admin_username' } Admin area username
+        .field-help{ :'data-help-text' => 'Username to access admin area (settings, logs)' }
+        = setting_field :admin_username
+
+    .row
+      .col-sm-12
+        %label{ :name => 'admin_password' } Admin area password
+        .field-help{ :'data-help-text' => 'Password to access admin area (settings, logs)' }
+        = setting_field :admin_password, 'password'
+
+    .row
+      .col-sm-12
+        &nbsp;
+
+    .row
+      .col-sm-12
         %input.btn.btn-success{ :type => 'submit', :name => 'submit', :value => 'Submit' }
