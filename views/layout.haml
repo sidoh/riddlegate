@@ -13,6 +13,9 @@
 
     %link{:href => "/assets/application.css", :rel => "stylesheet"}
 
+    = bootstrap_js_default
+    %script{:type => 'application/javascript', :src => '/assets/application.js' }
+
   %body
     .container
       %nav.navbar.navbar-default
@@ -35,6 +38,3 @@
       .row
         .col-lg-6
           = yield
-
-    = bootstrap_js_default
-    %script{:type => 'application/javascript', :src => '/assets/application.js' }

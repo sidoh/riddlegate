@@ -2,13 +2,20 @@
 
 %table#logs.table
   %thead
+    %th Date
     %th Msg
-    %th Metadata
   - Log.all.each do |l|
-    %tr
-      %td= l.message
+    %tr.log-item
+      %td= l.created_at
       %td
-        - JSON.parse(l.metadata).each do |k, v|
-          .metadata-item
-            .key= k
-            .value= v
+        .pull-left
+          = l.message
+        .pull-right
+          %a.show-metadata{ :href => '#' } Metadata
+        .clearfix
+
+        .metadata
+          - JSON.parse(l.metadata).each do |k, v|
+            .metadata-item
+              .key= k
+              .value= v

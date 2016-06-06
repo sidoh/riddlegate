@@ -23,13 +23,18 @@ module Riddlegate
         @auth ||=  Rack::Auth::Basic::Request.new(request.env)
         @auth.provided? && @auth.basic? && @auth.credentials &&
           @auth.credentials == [
-            get_setting(:admin_username, default: 'admin'),
-            get_setting(:admin_password, default: 'hunter2')
+            get_setting(:admin_username),
+            get_setting(:admin_password)
           ]
       end
     end
 
     before do
+      # Do this instead of specifying defaults to avoid confusing behavior when
+      # saving a form with blank values
+      initialize_setting(:admin_username, 'admin')
+      initialize_setting(:admin_password, 'hunter2')
+
       if !authorized?
         headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
         halt 401, "Not authorized\n"

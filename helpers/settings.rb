@@ -4,6 +4,13 @@ module Riddlegate
 
     ]
 
+    def initialize_setting(key, value)
+      v = get_setting(key)
+      if !v || v.empty?
+        update_setting(key, value)
+      end
+    end
+
     def security_enabled?
       to_bool(get_setting(:security_enabled))
     end
