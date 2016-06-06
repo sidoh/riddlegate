@@ -5,3 +5,8 @@ Riddlegate is a little server that enables you to automate gate buzzers you ofte
 
 1. A [Twilio](http://twilio.com) account and number. Twilio offers numbers for $1/month and ~$0.01 per call.
 2. An externally accessible web server to run riddlegate on.
+
+# Why "riddlegate?"
+![The Riddle Gate](http://i.imgur.com/IiyEupU.png)
+
+Unfortunately, riddlegate doesn't come equipped with eye-lasers.
