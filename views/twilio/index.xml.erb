@@ -1,5 +1,5 @@
 <Response>
-  <Gather action="/twilio/call?state=code_entered"
+  <Gather action="/twilio?state=code_entered"
           timeout="<%= get_setting(:timeout, default: 10) %>"
           numDigits="<%= get_setting(:passcode, default: "").length %>">
     <% if get_setting(:recording_url) %>
