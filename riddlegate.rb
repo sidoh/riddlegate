@@ -10,6 +10,7 @@ require 'openssl'
 
 require 'haml'
 require 'tilt/haml'
+require 'tilt/erb'
 
 module Riddlegate
   class TwilioApp < Sinatra::Application
