@@ -5,6 +5,7 @@ require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/param'
 require 'sinatra/bootstrap'
+require 'sinatra/multi_route'
 require 'sprockets'
 require 'openssl'
 
