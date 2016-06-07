@@ -62,6 +62,11 @@
           .field-help{ :'data-help-text' => 'Require that API requests be signed with this secret.' }
           = setting_field :hmac_secret
 
+    .row
+      .col-sm-12
+        %label{ :name => 'twilio_auth_token' } Twilio Auth Token
+        .field-help{ :'data-help-text' => 'Twilio signs requests with your auth token. Provide it to enable verification that requests are sent from Twilio.' }
+        = setting_field :twilio_auth_token
 
     .row
       .col-sm-12

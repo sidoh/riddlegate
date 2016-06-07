@@ -18,3 +18,6 @@ gem 'uglifier'
 # Db
 gem 'data_mapper'
 gem 'dm-sqlite-adapter'
+
+# Utils
+gem 'twilio-ruby'

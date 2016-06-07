@@ -13,8 +13,22 @@ require 'haml'
 require 'tilt/haml'
 require 'tilt/erb'
 
+require 'twilio-ruby'
+
 module Riddlegate
   class TwilioApp < Sinatra::Application
+    before do
+      auth_token = get_setting(:twilio_auth_token, default: "")
+
+      if !auth_token.empty?
+        validator = Twilio::Util::RequestValidator.new(auth_token)
+        signed_params = request.post? ? request.POST : {}
+
+        if !validator.validate(request.url, signed_params, request.env['HTTP_X_TWILIO_SIGNATURE'] || "")
+          halt 401, "Not authorized\n"
+        end
+      end
+    end
   end
 
   class AdminApp < Sinatra::Application
