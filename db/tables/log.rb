@@ -5,5 +5,5 @@ class Log
   property :message, Text
   property :metadata, Text
 
-  property :created_at, DateTime
+  timestamps :created_at
 end

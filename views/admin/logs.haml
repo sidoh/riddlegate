@@ -4,14 +4,19 @@
   %thead
     %th Date
     %th Msg
-  - Log.all.each do |l|
+  - @logs.each do |l|
     %tr.log-item
-      %td= l.created_at
+      - time = l.created_at
+      - time &&= time.strftime('%c')
+      %td= time
       %td
         .pull-left
           = l.message
         .pull-right
-          %a.show-metadata{ :href => '#' } Metadata
+          - metadata = l.metadata
+          - metadata &&= JSON.parse(metadata)
+          - if metadata && !metadata.empty?
+            %a.show-metadata{ :href => '#' } Metadata
         .clearfix
 
         .metadata
