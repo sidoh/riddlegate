@@ -33,6 +33,8 @@ By default, the server listens on port 8000. To change that behavior, edit `./co
 
 The remainder of the configuration is done through the web UI. Access it (by default) at `http://your-servers-host:8000`. The default credentinals to the admin area are admin/hunter2.
 
+Configuration parameters should be roughly self-explanatory. Hover over questionmark icons for a description.
+
 #### Make it accessible
 
 Do whatever you need to to make the riddlegate web server accessible to the outside world. I use nginx to proxy:
