@@ -1,18 +1,17 @@
 module Riddlegate
   module Settings
-    KEYS = [
-
-    ]
+    DEFAULT_VALUES = {
+      api_security_mode: 'admin_password',
+      admin_username: 'admin',
+      admin_password: 'hunter2',
+      mode: 'locked'
+    }
 
     def initialize_setting(key, value)
       v = get_setting(key)
       if !v || v.empty?
         update_setting(key, value)
       end
-    end
-
-    def security_enabled?
-      to_bool(get_setting(:security_enabled))
     end
 
     def update_setting(key, value)
@@ -24,7 +23,7 @@ module Riddlegate
     def get_setting(key, default: nil)
       v = Setting.first(setting_key: key)
       v &&= v.setting_value
-      v || default
+      v || default || DEFAULT_VALUES[key]
     end
 
     def get_boolean_setting(key, default: false)

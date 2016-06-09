@@ -32,24 +32,8 @@ module Riddlegate
   end
 
   class AdminApp < Sinatra::Application
-    helpers do
-      def authorized?
-        @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-        @auth.provided? && @auth.basic? && @auth.credentials &&
-          @auth.credentials == [
-            get_setting(:admin_username),
-            get_setting(:admin_password)
-          ]
-      end
-    end
-
     before do
-      # Do this instead of specifying defaults to avoid confusing behavior when
-      # saving a form with blank values
-      initialize_setting(:admin_username, 'admin')
-      initialize_setting(:admin_password, 'hunter2')
-
-      if !authorized?
+      if !authorized?(request)
         headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
         halt 401, "Not authorized\n"
       end
@@ -61,9 +45,10 @@ module Riddlegate
 
   class ApiApp < Sinatra::Application
     before do
-      if security_enabled?
+      if get_setting(:security_mode) == 'hmac_signature'
         timestamp = request.env['HTTP_X_SIGNATURE_TIMESTAMP']
-        payload   = request.env['HTTP_X_SIGNATURE_PAYLOAD']
+        params    = request.post? ? request.POST : {}
+        payload   = request.url + params.sort.join
         signature = request.env['HTTP_X_SIGNATURE']
 
         if [payload, timestamp, signature].any?(&:nil?)
@@ -85,6 +70,9 @@ module Riddlegate
           logger.info "Invalid parameter. Timestamp expired: #{timestamp}"
           halt 412
         end
+      elsif !authorized?(request)
+        headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+        halt 401, "Not authorized\n"
       end
     end
   end

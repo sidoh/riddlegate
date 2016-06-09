@@ -19,7 +19,8 @@ module Riddlegate
         update_setting(k, !params[:settings][k].nil?)
       end
 
-      if security_enabled? && get_setting(:hmac_secret, default: "").empty?
+      if get_setting(:api_security_mode) == 'hmac_signature' &&
+         get_setting(:hmac_secret, default: "").empty?
         update_setting(:hmac_secret, SecureRandom.hex)
       end
 

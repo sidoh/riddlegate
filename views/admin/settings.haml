@@ -3,8 +3,9 @@
     %h3 Mode
 
     = setting_field :mode, 'hidden'
+    = setting_field :api_security_mode, 'hidden'
 
-    .btn-group.mode
+    .btn-group.mode.setting-group{ :'data-setting-group' => '#behavior-fields .behavior-field', :'data-setting-field' => 'mode' }
       %button.btn.btn-default{ :type => 'button', :'data-value' => 'locked' }
         %i.glyphicon.glyphicon-lock
         Locked
@@ -47,20 +48,23 @@
           .field-help{ :'data-help-text' => 'Digits you dial to unlock the gate.' }
           = setting_field :buzz_digits, 'number'
 
-    %h3 Security
+    %h3 API Security
 
-    .row
+    %label{ :name => 'security_mode' }
+
+    .btn-group.setting-group{ :'data-setting-group' => '.security-field', :'data-setting-field' => 'api_security_mode' }
+      %button.btn.btn-default{ :type => 'button', :'data-value' => 'admin_password' }
+        %i.glyphicon.glyphicon-asterisk
+        Admin Password
+      %button.btn.btn-default{ :type => 'button', :'data-value' => 'hmac_signature' }
+        %i.glyphicon.glyphicon-pencil
+        HMAC Signature
+
+    .row.security-field{ :'data-modes' => 'hmac_signature' }
       .col-sm-12
-        %label{ :name => 'security_enabled' } Require API Signatures
-        .field-help{ :'data-help-text' => 'Require that API requests include HMAC security headers. If enabled, a shared secret must be specified (one will be randomly generated if you do not).' }
-        = setting_checkbox :security_enabled
-
-    #security-settings
-      .row
-        .col-sm-12
-          %label{ :name => 'hmac_secret' } API HMAC Secret
-          .field-help{ :'data-help-text' => 'Require that API requests be signed with this secret.' }
-          = setting_field :hmac_secret
+        %label{ :name => 'hmac_secret' } API HMAC Secret
+        .field-help{ :'data-help-text' => 'Require that API requests be signed with this secret.' }
+        = setting_field :hmac_secret
 
     .row
       .col-sm-12
