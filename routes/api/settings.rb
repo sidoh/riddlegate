@@ -9,7 +9,7 @@ module Riddlegate
     }
 
     put '/settings' do
-      (params[:settings] || {})
+      (params || {})
         .reject { |k, _| BLACKLIST_SETTINGS.include?(k) }
         .each do |k, v|
           update_setting(k, v)

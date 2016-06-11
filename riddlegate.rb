@@ -44,22 +44,11 @@ module Riddlegate
   end
 
   class ApiApp < Sinatra::Application
-    helpers do
-      def sort_params(params)
-        params.each do |k, v|
-          if v.is_a?(Hash)
-            params[k] = sort_params(v)
-          end
-        end
-        Hash[params.sort]
-      end
-    end
-
     before do
       if get_setting(:api_security_mode) == 'hmac_signature'
         timestamp = request.env['HTTP_X_SIGNATURE_TIMESTAMP']
         params    = (request.put? || request.post?) ? request.POST : {}
-        payload   = request.url + sort_params(params).to_json
+        payload   = request.url + params.sort.join
         signature = request.env['HTTP_X_SIGNATURE']
 
         if [payload, timestamp, signature].any?(&:nil?)
