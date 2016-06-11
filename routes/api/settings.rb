@@ -14,6 +14,8 @@ module Riddlegate
         .each do |k, v|
           update_setting(k, v)
         end
+
+      halt 200
     end
 
     get '/settings' do
