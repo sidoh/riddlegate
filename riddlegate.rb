@@ -58,7 +58,7 @@ module Riddlegate
     before do
       if get_setting(:api_security_mode) == 'hmac_signature'
         timestamp = request.env['HTTP_X_SIGNATURE_TIMESTAMP']
-        params    = request.post? ? request.POST : {}
+        params    = (request.put? || request.post?) ? request.POST : {}
         payload   = request.url + sort_params(params).to_json
         signature = request.env['HTTP_X_SIGNATURE']
 
