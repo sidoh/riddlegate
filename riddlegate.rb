@@ -44,16 +44,27 @@ module Riddlegate
   end
 
   class ApiApp < Sinatra::Application
+    helpers do
+      def sort_params(params)
+        params.each do |k, v|
+          if v.is_a?(Hash)
+            params[k] = sort_params(v)
+          end
+        end
+        params.sort
+      end
+    end
+
     before do
       if get_setting(:api_security_mode) == 'hmac_signature'
         timestamp = request.env['HTTP_X_SIGNATURE_TIMESTAMP']
         params    = request.post? ? request.POST : {}
-        payload   = request.url + params.sort.join
+        payload   = request.url + sort_params(params).to_json
         signature = request.env['HTTP_X_SIGNATURE']
 
         if [payload, timestamp, signature].any?(&:nil?)
           logger.info "Access denied: incomplete signature params."
-          logger.info "timestamp = #{timestamp}, payload = #{payload}, signature = #{signature}"
+          logger.info "timestamp = #{timestamp}, computed payload = #{payload}, signature = #{signature}"
           halt 403
         end
 
@@ -63,6 +74,8 @@ module Riddlegate
 
         if hmac != signature
           logger.info "Access denied: incorrect signature. Computed = '#{hmac}', provided = '#{signature}'"
+          logger.info "provided payload = #{request.env['HTTP_X_COMPUTED_PAYLOAD']}"
+          logger.info "computed payload = #{payload}"
           halt 403
         end
 
