@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 # Server
 gem 'sinatra'
-gem 'sinatra-json'
 gem 'sinatra-param'
 gem 'sinatra-bootstrap'
 gem 'sinatra-contrib'

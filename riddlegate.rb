@@ -2,7 +2,6 @@ $LOAD_PATH << ::File.expand_path(::File.join(__FILE__, '..'))
 $LOAD_PATH << ::File.expand_path(::File.join(__FILE__, '../..'))
 
 require 'sinatra'
-require 'sinatra/json'
 require 'sinatra/param'
 require 'sinatra/bootstrap'
 require 'sinatra/multi_route'
@@ -12,6 +11,7 @@ require 'openssl'
 require 'haml'
 require 'tilt/haml'
 require 'tilt/erb'
+require 'json'
 
 require 'twilio-ruby'
 
