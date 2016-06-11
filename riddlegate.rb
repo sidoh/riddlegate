@@ -51,7 +51,7 @@ module Riddlegate
             params[k] = sort_params(v)
           end
         end
-        params.sort
+        Hash[params.sort]
       end
     end
 
