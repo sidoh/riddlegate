@@ -15,6 +15,8 @@ module Riddlegate
           update_setting(k, v)
         end
 
+      create_log "Updated settings via API.", params
+
       halt 200
     end
 
