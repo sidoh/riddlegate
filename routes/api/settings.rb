@@ -5,6 +5,7 @@ module Riddlegate
       admin_password
       hmac_secret
       security_enabled
+      api_security_mode
       twilio_auth_token
     }
 
