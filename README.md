@@ -82,6 +82,66 @@ There are a few things you can do that'll help secure riddlegate:
 3. Serve over HTTPS. Putting riddlegate behind nginx is an easy way to enable that. Note that if you're using a self-signed cert, you'll need to update your Twilio settings to allow for that.
 4. Enable API and Twilio request validation. This ensures requests sent to riddlegate are from the parties you expect them to be.
 
+## API
+
+Riddlegate comes equipped with an API that allows you to control the same settings you see in the admin area. The endpoint is `PUT /api/settings`, and the following parameters are supported:
+
+1. `mode` possible values: locked, unlocked, forward
+2. `recording_url`
+3. `passcode`
+4. `forward_number`
+5. `timeout`
+
+#### Security
+
+You can either secure the API endpoint by requiring users authenticate with the same admin username/password, or by providing an HMAC signature with the key configured in the admin area.
+
+Here is a groovy snippet used to send signed requests to Riddlegate. Note that what's being signed is a concatenation of the request URI, sorted and concatenated parameters, and the timestamp.
+
+```groovy
+def hmac(String data, String key) throws SignatureException {
+  final Mac hmacSha1;
+  try {
+    hmacSha1 = Mac.getInstance("HmacSHA1");
+  } catch (Exception nsae) {
+    hmacSha1 = Mac.getInstance("HMAC-SHA-1");         
+  }
+  
+  final SecretKeySpec macKey = new SecretKeySpec(key.getBytes(), "RAW");
+  hmacSha1.init(macKey);
+  
+  final byte[] signature =  hmacSha1.doFinal(data.getBytes());
+  
+  return signature.encodeHex()
+}
+
+def sendUpdateCommand(params) {
+	log.info "sending update command. params: $params"
+    
+    long time = new Date().getTime() 
+    time /= 1000L
+    
+    final def endpoint = settings.endpoint
+    final def hmacSecret = settings.hmacSecret;
+    final def uri = "${endpoint}/api/settings"
+	  final def payload = uri + params.sort { it.key }.inject('') { a,k,v -> a+k+v } + time
+    
+    final String signature = hmac(payload, hmacSecret);
+
+    httpPut(
+    	[
+        	uri: uri,
+			    body: params,
+          headers: [
+          	'X-Signature-Timestamp': time,
+            'X-Signature': signature,
+            'X-Computed-Payload': payload
+          ]
+        ]
+    )
+}
+```
+
 ## Why "riddlegate?"
 [(![The Riddle Gate](http://i.imgur.com/IiyEupU.png)](https://www.youtube.com/watch?v=jbK8UfalSEQ)
 
