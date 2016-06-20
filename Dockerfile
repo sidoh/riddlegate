@@ -6,9 +6,7 @@ RUN gem update --system
 RUN gem install bundler
 
 RUN git clone https://github.com/sidoh/riddlegate /root/riddlegate
-RUN cd /root/riddlegate
-RUN git checkout docker
-RUN bundle install
+RUN cd /root/riddlegate && git fetch && git checkout docker && bundle install
 
 ENV RACK_ENV=docker
 
